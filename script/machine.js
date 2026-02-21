@@ -4,3 +4,4 @@ function getElement(id) {
     console.log(element);
     return element;
 }
+

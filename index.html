@@ -38,7 +38,7 @@
             
             <div class="card-1 shadow bg-base-200 rounded-md p-[20px]  space-y-2">
                 <p>Total</p>
-                <h2 id="total" class="text-2xl font-bold text-[#323B49]">8</h2>
+                <h2 id="total" class="text-2xl font-bold text-[#323B49]">0</h2>
             </div>
             <div class="card-2 shadow bg-base-200 rounded-md p-[20px]  space-y-2">
                 <p>Interview</p>
@@ -63,13 +63,13 @@
         </div>
 
         <div>
-            <button id="main-all" class="btn w-23"> All </button>
-            <button id="main-interview" class="btn w-23"> Interview </button>
-            <button id="main-rejected" class="btn w-23"> Rejected </button>
+            <button id="main-all" class="btn w-23" onclick="toggleStyle('main-all')"> All </button>
+            <button id="main-interview" class="btn w-23" onclick="toggleStyle('main-interview')"> Interview </button>
+            <button id="main-rejected" class="btn w-23" onclick="toggleStyle('main-rejected')"> Rejected </button>
         </div>
 
 
-        <section class="space-y-5">
+        <section id="allCards" class="space-y-5">
 
             <!-- card-1 -->
             <div class="card card-border bg-base-100 shadow flex flex-row">
@@ -253,6 +253,8 @@
     </main>
 
 
+    <script src="./script/machine.js"></script>
+    <script src="./script/script1.js"></script>
     
 </body>
 </html>
