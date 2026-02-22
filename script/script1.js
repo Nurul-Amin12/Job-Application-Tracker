@@ -23,13 +23,10 @@ const mainContainer = getElement("main-container");
 // get filter section
 const filterSection = getElement("filter-section");
 
+// get empty section
+const empty =  getElement('empty');
 
-// set new counting number in heading section
-function countTotal() {
-    total.innerText = allCards.children.length;
-    interview.innerText = interviewList.length;
-    rejected.innerText = rejectedList.length;
-}
+// set count number
 countTotal();
 
 
@@ -57,15 +54,51 @@ function toggleStyle(id) {
         allCards.classList.add("hidden");
         filterSection.classList.remove("hidden");
         renderInterview();
+
+        // set available jobs counting number 
+        getElement('main-total').innerText = `${interviewList.length} of ${allCards.children.length}`;
+
+        // Show if Empty 
+        if( interviewList.length === 0 ) {
+            emptySection();
+        }
+        else {
+            filterSection.classList.remove('hidden');
+            empty.classList.add('hidden');
+        }
     }
     else if( id === "main-all" ) {
         allCards.classList.remove('hidden');
         filterSection.classList.add('hidden');
+
+        // set available jobs counting number 
+        getElement('main-total').innerText = allCards.children.length;
+
+        // Show if Empty 
+        if( allCards.children.length === 0 ) {
+            emptySection();
+        }
+        else {
+            allCards.classList.remove('hidden');
+            empty.classList.add('hidden');
+        }
     }
     else if( id === 'main-rejected' ) {
         allCards.classList.add('hidden');
         filterSection.classList.remove('hidden');
         renderRejected();
+
+        // set available jobs counting number 
+        getElement('main-total').innerText = `${rejectedList.length} of ${allCards.children.length}`;
+
+        // Show if Empty 
+        if( rejectedList.length === 0 ) {
+            emptySection();
+        }
+        else {
+            filterSection.classList.remove('hidden');
+            empty.classList.add('hidden');
+        }
     }
 
 }
@@ -104,10 +137,22 @@ mainContainer.addEventListener('click',function(event){
 
         if( currentStatus === 'main-rejected' ) {
             renderRejected();
+            // set available jobs counting number 
+            getElement('main-total').innerText = `${rejectedList.length} of ${allCards.children.length}`;
+
+            // Show if Empty 
+            
+            if( rejectedList.length === 0 ) {
+                emptySection();
+            }
+            else {
+                filterSection.classList.remove('hidden');
+                empty.classList.add('hidden');
+            }
         }
         
         countTotal();
-    }
+}
 
     // Rejected 
     else if( event.target.classList.contains('btn2') ) {
@@ -141,9 +186,22 @@ mainContainer.addEventListener('click',function(event){
 
         if( currentStatus ==='main-interview' ) {
             renderInterview();
+
+            // set available jobs counting number 
+            getElement('main-total').innerText = `${interviewList.length} of ${allCards.children.length}`;
+
+            // Show if Empty 
+            if( interviewList.length === 0 ) {
+                emptySection();
+            }
+            else {
+                filterSection.classList.remove('hidden');
+                empty.classList.add('hidden');
+            }
         }
         
         countTotal();
+        
     }
 })
 
@@ -162,7 +220,7 @@ function renderInterview() {
                     
                     <p class="card-post text-[#64748B]">${interview.post}</p>
                     <p class="card-location text-[#64748B]">${interview.location}</p>    
-                    <p class="card-status text-[#323B49] bg-[#EEF4FF] py-2 px-3 font-bold w-28 rounded-md">${interview.status}</p>
+                    <p class="card-status text-[#323B49] bg-[#EEF4FF] py-2 px-3 font-bold w-24 rounded-md border-2 border-green-500 text-[green]">${interview.status}</p>
                     <p class="discription">${interview.description}</p>
                     
                     <div class="card-actions">
@@ -193,7 +251,7 @@ function renderRejected() {
                     
                     <p class="card-post text-[#64748B]">${rejected.post}</p>
                     <p class="card-location text-[#64748B]">${rejected.location}</p>    
-                    <p class="card-status text-[#323B49] bg-[#EEF4FF] py-2 px-3 font-bold w-28 rounded-md">${rejected.status}</p>
+                    <p class="card-status text-[#323B49] bg-[#EEF4FF] py-2 px-3 font-bold w-22 rounded-md border-2 border-red-500 text-[red]">${rejected.status}</p>
                     <p class="discription">${rejected.description}</p>
                     
                     <div class="card-actions">
@@ -208,3 +266,5 @@ function renderRejected() {
         filterSection.appendChild(div);
     }
 }
+
+
