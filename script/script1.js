@@ -116,7 +116,11 @@ mainContainer.addEventListener('click',function(event){
         const status = parentNode.querySelector('.card-status').innerText;
         const description = parentNode.querySelector('.discription').innerText;
         
+        // change status
         parentNode.querySelector('.card-status').innerText = 'Interview';
+        parentNode.querySelector('.card-status').classList.remove('text-[red]', 'bg-red-100');
+        parentNode.querySelector('.card-status').classList.add('text-[green]', 'bg-green-100');
+
 
         const cardInfo ={
             Title,
@@ -141,7 +145,6 @@ mainContainer.addEventListener('click',function(event){
             getElement('main-total').innerText = `${rejectedList.length} of ${allCards.children.length}`;
 
             // Show if Empty 
-            
             if( rejectedList.length === 0 ) {
                 emptySection();
             }
@@ -152,7 +155,7 @@ mainContainer.addEventListener('click',function(event){
         }
         
         countTotal();
-}
+    }
 
     // Rejected 
     else if( event.target.classList.contains('btn2') ) {
@@ -165,7 +168,11 @@ mainContainer.addEventListener('click',function(event){
         const status = parentNode.querySelector('.card-status').innerText;
         const description = parentNode.querySelector('.discription').innerText;
         
+        // Change Status 
         parentNode.querySelector('.card-status').innerText = 'Rejected';
+        parentNode.querySelector('.card-status').classList.remove('bg-green-100', 'text-[green]');
+        parentNode.querySelector('.card-status').classList.add('bg-red-100', 'text-[red]');
+
 
         const cardInfo ={
             Title,
@@ -200,9 +207,30 @@ mainContainer.addEventListener('click',function(event){
             }
         }
         
-        countTotal();
-        
+        countTotal();    
     }
+
+    // delete
+    else if( event.target.classList.contains('fa-trash-can') ) {
+        const parentNode = event.target.parentNode.parentNode;
+        console.log(parentNode,allCards.children.length);
+        parentNode.remove();
+
+        countTotal();
+
+        // set available jobs counting number 
+        getElement('main-total').innerText = allCards.children.length;
+
+        // Show if Empty 
+        if( allCards.children.length === 0 ) {
+            emptySection();
+        }
+        else {
+            allCards.classList.remove('hidden');
+            empty.classList.add('hidden');
+        }
+    }
+
 })
 
 // Interview
@@ -220,7 +248,7 @@ function renderInterview() {
                     
                     <p class="card-post text-[#64748B]">${interview.post}</p>
                     <p class="card-location text-[#64748B]">${interview.location}</p>    
-                    <p class="card-status text-[#323B49] bg-[#EEF4FF] py-2 px-3 font-bold w-24 rounded-md border-2 border-green-500 text-[green]">${interview.status}</p>
+                    <p class="card-status text-[#323B49] bg-[#EEF4FF] py-2 px-3 font-bold w-24 rounded-md bg-green-100 text-[green]">${interview.status}</p>
                     <p class="discription">${interview.description}</p>
                     
                     <div class="card-actions">
@@ -251,7 +279,7 @@ function renderRejected() {
                     
                     <p class="card-post text-[#64748B]">${rejected.post}</p>
                     <p class="card-location text-[#64748B]">${rejected.location}</p>    
-                    <p class="card-status text-[#323B49] bg-[#EEF4FF] py-2 px-3 font-bold w-22 rounded-md border-2 border-red-500 text-[red]">${rejected.status}</p>
+                    <p class="card-status text-[#323B49] bg-[#EEF4FF] py-2 px-3 font-bold w-22 rounded-md bg-red-50 text-[red]">${rejected.status}</p>
                     <p class="discription">${rejected.description}</p>
                     
                     <div class="card-actions">
