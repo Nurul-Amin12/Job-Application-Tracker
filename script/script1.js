@@ -218,8 +218,7 @@ mainContainer.addEventListener('click',function(event){
         interviewList = interviewList.filter(item=> item.Title !== parentNode.querySelector('.card-title').innerText);
         rejectedList = rejectedList.filter(item=> item.Title !== parentNode.querySelector('.card-title').innerText);
 
-        let name = parentNode.querySelector('.card-title').innerHTML; 
-        
+        let name = parentNode.querySelector('.card-title').innerText; 
         name = deletedCardName(name);
 
         // delete from All card
@@ -249,6 +248,10 @@ mainContainer.addEventListener('click',function(event){
             // set available jobs counting number 
             getElement('main-total').innerText = `${interviewList.length} of ${allCards.children.length}`;
 
+            // update Interview section by updating interviewList
+            interviewList = interviewList.filter(item=> item.Title !== parentNode.querySelector('.card-title').innerText);
+            renderInterview();
+            
             // Show if Empty 
             if( interviewList.length === 0 ) {
                 emptySection();
@@ -265,6 +268,10 @@ mainContainer.addEventListener('click',function(event){
         
             // set available jobs counting number 
             getElement('main-total').innerText = `${rejectedList.length} of ${allCards.children.length}`;
+            
+            // update Rejected section by updating rejectedList
+            rejectedList = rejectedList.filter(item=> item.Title !== parentNode.querySelector('.card-title').innerText);
+            renderRejected();
 
             // Show if Empty 
             if( rejectedList.length === 0 ) {
