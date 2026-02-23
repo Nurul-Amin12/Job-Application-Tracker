@@ -2,7 +2,7 @@
 // to push interview & rejected card in array
 let interviewList = [];
 let rejectedList = [];
-let currentStatus ='all';
+let currentStatus ='main-all';
 
 // get counting number from header 
 let total = getElement("total");
@@ -107,7 +107,6 @@ mainContainer.addEventListener('click',function(event){
 
     // Interview
     if( event.target.classList.contains('btn1') ) {
-        
         const parentNode = event.target.parentNode.parentNode;
 
         const Title = parentNode.querySelector('.card-title').innerText;
@@ -212,23 +211,72 @@ mainContainer.addEventListener('click',function(event){
 
     // delete
     else if( event.target.classList.contains('fa-trash-can') ) {
+        
         const parentNode = event.target.parentNode.parentNode;
-        console.log(parentNode,allCards.children.length);
-        parentNode.remove();
+        
+        // delete from Interview & Rejected section 
+        interviewList = interviewList.filter(item=> item.Title !== parentNode.querySelector('.card-title').innerText);
+        rejectedList = rejectedList.filter(item=> item.Title !== parentNode.querySelector('.card-title').innerText);
 
-        countTotal();
+        let name = parentNode.querySelector('.card-title').innerHTML; 
+        
+        name = deletedCardName(name);
 
-        // set available jobs counting number 
-        getElement('main-total').innerText = allCards.children.length;
+        // delete from All card
+        let deleteCard = allCards.querySelector(name);
+        deleteCard.remove();
 
-        // Show if Empty 
-        if( allCards.children.length === 0 ) {
-            emptySection();
+        // delete from all section
+        if( currentStatus === 'main-all' ) {
+
+            // set available jobs counting number 
+            getElement('main-total').innerText = allCards.children.length;
+
+            // Show if Empty 
+            if( allCards.children.length === 0 ) {
+                emptySection();
+            }
+            else {
+                allCards.classList.remove('hidden');
+                empty.classList.add('hidden');
+            }
+            countTotal();
         }
-        else {
-            allCards.classList.remove('hidden');
-            empty.classList.add('hidden');
+
+        // delete from Interview section
+        else if( currentStatus === 'main-interview' ) {
+
+            // set available jobs counting number 
+            getElement('main-total').innerText = `${interviewList.length} of ${allCards.children.length}`;
+
+            // Show if Empty 
+            if( interviewList.length === 0 ) {
+                emptySection();
+            }
+            else {
+                filterSection.classList.remove('hidden');
+                empty.classList.add('hidden');
+            }
+            countTotal();
         }
+
+        // delete from Rejected section
+        else if( currentStatus === 'main-rejected' ) {
+        
+            // set available jobs counting number 
+            getElement('main-total').innerText = `${rejectedList.length} of ${allCards.children.length}`;
+
+            // Show if Empty 
+            if( rejectedList.length === 0 ) {
+                emptySection();
+            }
+            else {
+                filterSection.classList.remove('hidden');
+                empty.classList.add('hidden');
+            }
+            countTotal();
+        }
+
     }
 
 })
@@ -296,3 +344,59 @@ function renderRejected() {
 }
 
 
+// let allList = [];
+// for(let i of allCards.children) {
+
+//     const CTitle = i.querySelector('.card-title').innerText;
+//     const CPost = i.querySelector('.card-post').innerText;
+//     const CLocation = i.querySelector('.card-location').innerText;
+//     const CStatus = i.querySelector('.card-status').innerText;
+//     const CDescription = i.querySelector('.discription').innerText;
+    
+//     const cardsInfo ={
+//         CTitle,
+//         CPost,
+//         CLocation,
+//         CStatus,
+//         CDescription
+//     }
+
+//     const cardExist = allList.find(item=> item.Title == cardsInfo.CTitle && item.post == cardsInfo.CPost);
+        
+//     if(!cardExist) {
+//         allList.push(cardsInfo);
+//     }
+//     // console.log(cardsInfo);
+// }
+
+// function renderAllCard() {
+//     filterSection.innerHTML = '';
+
+//     for (const cardAll of allList) {
+        
+//         let div = document.createElement('div');
+//         div.className = 'card card-border bg-base-100 shadow flex flex-row';
+//         div.innerHTML =  `
+        
+//                 <div class="card-body space-y-3">
+//                     <h2 class="card-title text-[#323B49] font-bold">${cardAll.CTitle}</h2>
+                    
+//                     <p class="card-post text-[#64748B]">${cardAll.CPost}</p>
+//                     <p class="card-location text-[#64748B]">${cardAll.CLocation}</p>    
+//                     <p class="card-status text-[#323B49] bg-[#EEF4FF] py-2 px-3 font-bold w-22 rounded-md bg-red-50 text-[red]">${cardAll.CStatus}</p>
+//                     <p class="discription">${cardAll.CDescription}</p>
+                    
+//                     <div class="card-actions">
+//                         <button class="btn btn1 font-bold text-green-500 border-2 border-green-500">INTERVIEW</button>
+//                         <button class="btn btn2 font-bold text-red-500 border-2 border-red-500">REJECTED</button>
+//                     </div>
+//                 </div>
+                
+//                 <button class="btn w-10 h-10 m-8 bg-base-100 rounded-full"><i class="fa-regular fa-trash-can"></i></button>
+
+//         `;
+//         filterSection.appendChild(div);
+//     }
+// }
+
+// console.log(allList.length);
