@@ -152,6 +152,14 @@ mainContainer.addEventListener('click',function(event){
                 empty.classList.add('hidden');
             }
         }
+
+        // change status in all card section after click interview button in rejected section
+        let name = parentNode.querySelector('.card-title').innerText; 
+        name = deletedCardName(name);
+        let changeStatus = allCards.querySelector(name).querySelector('.card-status');
+        changeStatus.innerText = 'Interview';
+        changeStatus.classList.remove('bg-red-100', 'text-[red]');
+        changeStatus.classList.add('bg-green-100', 'text-[green]');
         
         countTotal();
     }
@@ -206,6 +214,16 @@ mainContainer.addEventListener('click',function(event){
             }
         }
         
+        // change status in all card section after click rejected button in interview section
+        let name = parentNode.querySelector('.card-title').innerText; 
+        name = deletedCardName(name);
+        let changeStatus = allCards.querySelector(name).querySelector('.card-status');
+        changeStatus.innerText = 'Rejected';
+        console.log('changeStatus',changeStatus);
+        changeStatus.classList.remove('bg-green-100', 'text-[green]');
+        changeStatus.classList.add('bg-red-100', 'text-[red]');
+        
+
         countTotal();    
     }
 
@@ -215,8 +233,8 @@ mainContainer.addEventListener('click',function(event){
         const parentNode = event.target.parentNode.parentNode;
         
         // delete from Interview & Rejected section 
-        interviewList = interviewList.filter(item=> item.Title !== parentNode.querySelector('.card-title').innerText);
-        rejectedList = rejectedList.filter(item=> item.Title !== parentNode.querySelector('.card-title').innerText);
+        // interviewList = interviewList.filter(item=> item.Title !== parentNode.querySelector('.card-title').innerText);
+        // rejectedList = rejectedList.filter(item=> item.Title !== parentNode.querySelector('.card-title').innerText);
 
         let name = parentNode.querySelector('.card-title').innerText; 
         name = deletedCardName(name);
