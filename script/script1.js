@@ -224,14 +224,87 @@ mainContainer.addEventListener('click',function(event){
         countTotal();    
     }
 
-    // delete
+    // delete with div
+    else if( event.target.classList.contains('card-delete-div') ) {
+        
+        const parentNode = event.target.parentNode;
+        
+        let name = parentNode.querySelector('.card-title').innerText; 
+        name = deletedCardName(name);
+
+        // update Interview & Rejected section by updating interviewList & rejectedList
+        interviewList = interviewList.filter(item=> item.Title !== parentNode.querySelector('.card-title').innerText);
+        rejectedList = rejectedList.filter(item=> item.Title !== parentNode.querySelector('.card-title').innerText);
+        
+        // delete from All card
+        let deleteCard = allCards.querySelector(name);
+        deleteCard.remove();
+
+        // delete from all section
+        if( currentStatus === 'main-all' ) {
+
+            // set available jobs counting number 
+            getElement('main-total').innerText = allCards.children.length;
+
+            // Show if Empty 
+            if( allCards.children.length === 0 ) {
+                emptySection();
+            }
+            else {
+                allCards.classList.remove('hidden');
+                empty.classList.add('hidden');
+            }
+            countTotal();
+        }
+
+        // delete from Interview section
+        else if( currentStatus === 'main-interview' ) {
+
+            // update Interview section by updating interviewList
+            renderInterview();
+            
+            // set available jobs counting number 
+            getElement('main-total').innerText = `${interviewList.length} of ${allCards.children.length}`;
+            
+            // Show if Empty 
+            if( interviewList.length === 0 ) {
+                emptySection();
+            }
+            else {
+                filterSection.classList.remove('hidden');
+                empty.classList.add('hidden');
+            }
+            countTotal();
+        }
+
+        // delete from Rejected section
+        else if( currentStatus === 'main-rejected' ) {
+        
+            // update Rejected section by updating rejectedList
+            renderRejected();
+            
+            // set available jobs counting number 
+            getElement('main-total').innerText = `${rejectedList.length} of ${allCards.children.length}`;
+
+            // Show if Empty 
+            if( rejectedList.length === 0 ) {
+                emptySection();
+            }
+            else {
+                filterSection.classList.remove('hidden');
+                empty.classList.add('hidden');
+            }
+            countTotal();
+        }
+
+    }
+    // delete with icon
     else if( event.target.classList.contains('card-delete') ) {
         
         const parentNode = event.target.parentNode.parentNode;
         
         let name = parentNode.querySelector('.card-title').innerText; 
         name = deletedCardName(name);
-        console.log(name);
 
         // update Interview & Rejected section by updating interviewList & rejectedList
         interviewList = interviewList.filter(item=> item.Title !== parentNode.querySelector('.card-title').innerText);
@@ -326,7 +399,7 @@ function renderInterview() {
                     </div>
                 </div>
                 
-                <button class="btn card-delete w-10 h-10 m-8 bg-base-100 rounded-full"><i class="card-delete fa-regular fa-trash-can"></i></button>
+                <button class="btn card-delete-div w-10 h-10 m-8 bg-base-100 rounded-full"><i class="card-delete fa-regular fa-trash-can"></i></button>
 
         `;
         filterSection.appendChild(div);
@@ -357,7 +430,7 @@ function renderRejected() {
                     </div>
                 </div>
                 
-                <button class="btn card-delete w-10 h-10 m-8 bg-base-100 rounded-full"><i class="card-delete fa-regular fa-trash-can"></i></button>
+                <button class="btn card-delete-div w-10 h-10 m-8 bg-base-100 rounded-full"><i class="card-delete fa-regular fa-trash-can"></i></button>
 
         `;
         filterSection.appendChild(div);
