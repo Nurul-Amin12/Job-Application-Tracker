@@ -112,7 +112,6 @@ mainContainer.addEventListener('click',function(event){
         const Title = parentNode.querySelector('.card-title').innerText;
         const post = parentNode.querySelector('.card-post').innerText;
         const location = parentNode.querySelector('.card-location').innerText;
-        const status = parentNode.querySelector('.card-status').innerText;
         const description = parentNode.querySelector('.discription').innerText;
         
         // change status
@@ -172,7 +171,6 @@ mainContainer.addEventListener('click',function(event){
         const Title = parentNode.querySelector('.card-title').innerText;
         const post = parentNode.querySelector('.card-post').innerText;
         const location = parentNode.querySelector('.card-location').innerText;
-        const status = parentNode.querySelector('.card-status').innerText;
         const description = parentNode.querySelector('.discription').innerText;
         
         // Change Status 
@@ -219,7 +217,6 @@ mainContainer.addEventListener('click',function(event){
         name = deletedCardName(name);
         let changeStatus = allCards.querySelector(name).querySelector('.card-status');
         changeStatus.innerText = 'Rejected';
-        console.log('changeStatus',changeStatus);
         changeStatus.classList.remove('bg-green-100', 'text-[green]');
         changeStatus.classList.add('bg-red-100', 'text-[red]');
         
@@ -228,17 +225,18 @@ mainContainer.addEventListener('click',function(event){
     }
 
     // delete
-    else if( event.target.classList.contains('fa-trash-can') ) {
+    else if( event.target.classList.contains('card-delete') ) {
         
         const parentNode = event.target.parentNode.parentNode;
         
-        // delete from Interview & Rejected section 
-        // interviewList = interviewList.filter(item=> item.Title !== parentNode.querySelector('.card-title').innerText);
-        // rejectedList = rejectedList.filter(item=> item.Title !== parentNode.querySelector('.card-title').innerText);
-
         let name = parentNode.querySelector('.card-title').innerText; 
         name = deletedCardName(name);
+        console.log(name);
 
+        // update Interview & Rejected section by updating interviewList & rejectedList
+        interviewList = interviewList.filter(item=> item.Title !== parentNode.querySelector('.card-title').innerText);
+        rejectedList = rejectedList.filter(item=> item.Title !== parentNode.querySelector('.card-title').innerText);
+        
         // delete from All card
         let deleteCard = allCards.querySelector(name);
         deleteCard.remove();
@@ -263,12 +261,11 @@ mainContainer.addEventListener('click',function(event){
         // delete from Interview section
         else if( currentStatus === 'main-interview' ) {
 
+            // update Interview section by updating interviewList
+            renderInterview();
+            
             // set available jobs counting number 
             getElement('main-total').innerText = `${interviewList.length} of ${allCards.children.length}`;
-
-            // update Interview section by updating interviewList
-            interviewList = interviewList.filter(item=> item.Title !== parentNode.querySelector('.card-title').innerText);
-            renderInterview();
             
             // Show if Empty 
             if( interviewList.length === 0 ) {
@@ -284,12 +281,11 @@ mainContainer.addEventListener('click',function(event){
         // delete from Rejected section
         else if( currentStatus === 'main-rejected' ) {
         
+            // update Rejected section by updating rejectedList
+            renderRejected();
+            
             // set available jobs counting number 
             getElement('main-total').innerText = `${rejectedList.length} of ${allCards.children.length}`;
-            
-            // update Rejected section by updating rejectedList
-            rejectedList = rejectedList.filter(item=> item.Title !== parentNode.querySelector('.card-title').innerText);
-            renderRejected();
 
             // Show if Empty 
             if( rejectedList.length === 0 ) {
@@ -330,7 +326,7 @@ function renderInterview() {
                     </div>
                 </div>
                 
-                <button class="btn w-10 h-10 m-8 bg-base-100 rounded-full"><i class="fa-regular fa-trash-can"></i></button>
+                <button class="btn card-delete w-10 h-10 m-8 bg-base-100 rounded-full"><i class="card-delete fa-regular fa-trash-can"></i></button>
 
         `;
         filterSection.appendChild(div);
@@ -361,7 +357,7 @@ function renderRejected() {
                     </div>
                 </div>
                 
-                <button class="btn w-10 h-10 m-8 bg-base-100 rounded-full"><i class="fa-regular fa-trash-can"></i></button>
+                <button class="btn card-delete w-10 h-10 m-8 bg-base-100 rounded-full"><i class="card-delete fa-regular fa-trash-can"></i></button>
 
         `;
         filterSection.appendChild(div);
